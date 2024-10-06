@@ -8,11 +8,48 @@
 import SwiftUI
 
 struct ChatView: View {
+    @Binding var messages: [ChatStructure]
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollViewReader { scrollView in
+        ScrollView(){
+            VStack{
+                ForEach(messages,id:\.id) { message in
+                    if message.role == "user"{
+                        HStack{
+                            Spacer()
+                            Text(message.message)
+                                .padding()
+                                .background(.quinary)
+                                .cornerRadius(20)
+                                .font(.custom("",size: 15))
+                        }.padding(.horizontal,5)
+                    }
+                    else{
+                        HStack(alignment: .top){
+                            Image(systemName: "circle.hexagongrid")
+                            Text(message.message)
+                                .padding(.horizontal,5)
+                                .font(.custom("",size: 15))
+                            Spacer()
+                        }
+                        .padding()
+                    }
+                }
+                
+            }.onChange(of: messages) { _ in
+                // Scroll to the bottom when messages change
+                if let lastMessageID = messages.last?.id {
+                    withAnimation {
+                        scrollView.scrollTo(lastMessageID, anchor: .bottom)
+                    }
+                }
+            }
+        }
+    }
+       
     }
 }
 
 #Preview {
-    ChatView()
+    ChatView(messages: .constant(Messages))
 }

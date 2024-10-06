@@ -7,12 +7,27 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
+struct Navbar: View {
+    @Binding var dropDown: Bool
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack() {
+            Button(action: {
+                          dropDown.toggle()
+                      }) {
+                          Image(systemName: "list.bullet.indent")
+                              .foregroundColor(.black)
+                      }
+            Spacer()
+            Text("AI-BOT")
+                .font(.title)
+            Spacer()
+        
+            Image(systemName: "pencil")
+                .fontWeight(.bold)
+        }.padding(.horizontal,15)
     }
 }
 
 #Preview {
-    SwiftUIView()
+    Navbar(dropDown: .constant(false) )
 }

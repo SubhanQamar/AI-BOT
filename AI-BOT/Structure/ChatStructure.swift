@@ -6,3 +6,8 @@
 //
 
 import Foundation
+struct ChatStructure: Identifiable, Equatable ,Codable {
+    let id = UUID()
+    let message: String
+    let role: String
+}
